@@ -10,14 +10,8 @@ Romi32U4Encoders encoders;
 
 
 void setup() {
-    Position position(12,4,5);
-    Position position2(13,10,6);
-    Position pos = position + position2;
-    Position arg = static_cast<Position&&>(pos);
-    std::nothrow
-    Serial.print("Position: ");
-    Serial.println(pos);
-    Serial.println(arg);
+    Serial.begin(9600);
+    delay(1000);
 // write your initialization code here
 }
 

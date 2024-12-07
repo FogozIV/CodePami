@@ -1,7 +1,10 @@
 #include "Position.h"
 
 Position::Position(double x, double y, double a) : x(x), y(y), a(a){
-    
+    while(this->a > M_PI)
+        this->a -= 2*M_PI;
+    while(this->a < -M_PI)
+        this->a += 2*M_PI;
 }
 
 double Position::getX() const{
@@ -13,6 +16,10 @@ double Position::getY() const{
 }
 
 double Position::getAngle() const{
+    return a*180/M_PI;
+}
+
+double Position::getAngleRad() const {
     return a;
 }
 
@@ -20,6 +27,10 @@ void Position::add(double x, double y, double a){
   this->x += x;
   this->y += y;
   this->a += a;
+  while(this->a > M_PI)
+    this->a -= 2*M_PI;
+  while(this->a < -M_PI)
+    this->a += 2*M_PI;
 }
 
 
@@ -34,14 +45,33 @@ size_t Position::printTo(Print &p) const {
     length += p.print(", y: ");
     length += p.print(y);
     length += p.print(", angle: ");
-    length += p.print(a);
+    length += p.print(a*180/M_PI);
     return length;
 }
 
 Position Position::operator+(const Position& pos){
-  return Position(this->x + pos.x, this->y + pos.y, this->a+ pos.a);
+  return {this->x + pos.x, this->y + pos.y, this->a+ pos.a};
 }
 
 Position Position::operator-(const Position& pos){
-  return Position(this->x - pos.x, this->y - pos.y, this->a - pos.a);
+  return {this->x - pos.x, this->y - pos.y, this->a - pos.a};
+}
+
+Position Position::operator+=(const Position &rhs) {
+    this->x += rhs.x;
+    this->y += rhs.y;
+    this->a += rhs.a;
+    while(this->a > M_PI)
+        this->a -= 2*M_PI;
+    while(this->a < -M_PI)
+        this->a += 2*M_PI;
+    return *this;
+}
+
+double Position::getVectorAngle() const {
+    return atan2(this->y, this->x) / M_PI * 180;
+}
+
+double Position::getVectorAngleRad() const {
+    return atan2(this->y, this->x) ;
 }

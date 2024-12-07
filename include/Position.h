@@ -21,13 +21,21 @@ private:
 
     double getDistance() const;
 
+    double getVectorAngle() const;
+
     void add(double x, double y, double a);
 
     Position operator+(const Position& rhs);
 
     Position operator-(const Position& rhs);
 
+    Position operator+=(const Position& rhs);
+
     size_t printTo(Print& p) const override;
+
+    double getAngleRad() const;
+
+    double getVectorAngleRad() const;
 };
 
 

@@ -5,6 +5,7 @@
 #ifndef TARGET_H
 #define TARGET_H
 class Robot;
+class CourbeBezier;
 class Target{
 protected:
     Robot* robot;
@@ -103,6 +104,22 @@ class ArcTarget: public Target{
     double radius;
 public:
 
+};
+
+class BezierTarget : public Target {
+    Position end_pos;
+    bool done = false;
+    CourbeBezier* curve = nullptr;
+public:
+    BezierTarget(Robot *robot, Position end_pos);
+
+    void init() override;
+
+    bool is_done() override;
+
+    void process() override;
+
+    void on_done() override;
 };
 
 #endif

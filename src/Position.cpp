@@ -49,11 +49,11 @@ size_t Position::printTo(Print &p) const {
     return length;
 }
 
-Position Position::operator+(const Position& pos){
+Position Position::operator+(const Position& pos) const{
   return {this->x + pos.x, this->y + pos.y, this->a+ pos.a};
 }
 
-Position Position::operator-(const Position& pos){
+Position Position::operator-(const Position& pos) const{
   return {this->x - pos.x, this->y - pos.y, this->a - pos.a};
 }
 
@@ -68,10 +68,22 @@ Position Position::operator+=(const Position &rhs) {
     return *this;
 }
 
+Position Position::operator*(const double rhs) const {
+    return {this->x * rhs, this->y * rhs, this->a * rhs};
+}
+
+Position Position::operator/(const double rhs) const{
+    return {this->x / rhs, this->y / rhs, this->a / rhs};
+}
+
 double Position::getVectorAngle() const {
     return atan2(this->y, this->x) / M_PI * 180;
 }
 
 double Position::getVectorAngleRad() const {
     return atan2(this->y, this->x) ;
+}
+
+Position Position::getSinCosAngle() const {
+    return {cos(this->a), sin(this->a)};
 }

@@ -36,5 +36,4 @@ RotateTowardPositionTarget::RotateTowardPositionTarget(Robot *robot, const Posit
 void RotateTowardPositionTarget::on_done() {
     robot->setTargetDistance(robot->getTotalDistance());
     Serial.println("Called rotate toward");
-
 }

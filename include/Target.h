@@ -55,7 +55,7 @@ class PositionTarget : public Target{
     double max_speed;
     double acc;
     double dec;
-    bool done;
+    bool done = false;
     double end_speed;
 public:
     PositionTarget(Robot *robot, const Position &pos, double acc=100, double dec=100, double max_speed=200, double end_speed=0.0);
@@ -77,7 +77,7 @@ class RotateTowardPositionTarget : public Target{
     double max_speed;
     double acc;
     double dec;
-    bool done;
+    bool done = false;
     double target;
 public:
     RotateTowardPositionTarget(Robot *robot, const Position& pos, double acc=10, double dec=10, double max_speed=45);
@@ -91,6 +91,18 @@ public:
     void on_done() override;
 
     ~RotateTowardPositionTarget() override;
+};
+
+class ArcTarget: public Target{
+    Position pos;
+    Ramp* ramp = nullptr;
+    double max_speed;
+    double acc;
+    double dec;
+    bool done = false;
+    double radius;
+public:
+
 };
 
 #endif

@@ -71,7 +71,7 @@ const RampReturnData Ramp::compute(double distance_to_point, double wheel_distan
     }
     RampReturnData returndata;
     double time = ((double)(micros() - this->init_time))/1e6;
-    //update_ste_time(time, wheel_distance);
+    update_ste_time(time, distance_to_point, wheel_distance);
     Ramp::Private data = compute_at_time(time);
     if(!isnan(previous_computation.speed)){
         returndata = {data.done,data.distance - previous_computation.distance, data.speed, data.done && data.speed == 0.0, true};
@@ -103,9 +103,9 @@ const Ramp::Private Ramp::compute_at_time(double time) const {
     return {done, current_speed * this->sign, distance * this->sign};
 }
 
-void Ramp::update_ste_time(double time, double distance) {
+void Ramp::update_ste_time(double time, double distance, double wheel_distance) {
 
     if(time > acc_time && time < acc_time + ste_time)
-        ste_time = (sign * distance- sign_corrected.dec_distance)/(sign * ste_speed);
+        ste_time = init_ste_time + ((sign * wheel_distance - sign_corrected.wheel_distance) + sign * distance - sign_corrected.point_distance)/ste_speed;
 
 }

@@ -49,7 +49,7 @@ class Ramp {
         double wheel_distance = 0;
     }sign_corrected;
     const Private compute_at_time(double time) const;
-    void update_ste_time(double time, double distance);
+    void update_ste_time(double time, double distance, double wheel_distance);
 public:
     Ramp(double acc, double max_speed, double dec, double distance, double initial_speed=0.0f, double end_speed=0.0f);
 

@@ -6,7 +6,7 @@
 
 #define SIGN(x) (x > 0 ? 1 : -1)
 
-Ramp::Ramp(double acc, double max_speed, double dec, double distance, double initial_speed, double end_speed){
+Ramp::Ramp(double acc, double max_speed, double dec, double distance, double initial_speed, double end_speed) {
     this->acc = acc;
     this->dec = dec;
 
@@ -71,7 +71,8 @@ const RampReturnData Ramp::compute(double distance_to_point, double wheel_distan
     }
     RampReturnData returndata;
     double time = ((double)(micros() - this->init_time))/1e6;
-    update_ste_time(time, distance_to_point, wheel_distance);
+    if(increment)
+        update_ste_time(time, distance_to_point, wheel_distance);
     Ramp::Private data = compute_at_time(time);
     if(!isnan(previous_computation.speed)){
         returndata = {data.done,data.distance - previous_computation.distance, data.speed, data.done && data.speed == 0.0, true};
@@ -108,4 +109,20 @@ void Ramp::update_ste_time(double time, double distance, double wheel_distance) 
     if(time > acc_time && time < acc_time + ste_time)
         ste_time = init_ste_time + ((sign * wheel_distance - sign_corrected.wheel_distance) + sign * distance - sign_corrected.point_distance)/ste_speed;
 
+}
+
+const RampReturnData Ramp::compute() {
+    if(this->init_time == 0){
+        return {false, 0, false, false};
+    }
+    RampReturnData returndata;
+    double time = ((double)(micros() - this->init_time))/1e6;
+    Ramp::Private data = compute_at_time(time);
+    if(!isnan(previous_computation.speed)){
+        returndata = {data.done,data.distance - previous_computation.distance, data.speed, data.done && data.speed == 0.0, true};
+    }else{
+        returndata =  {data.done,data.distance, data.speed, data.done && data.speed == 0.0, true};
+    }
+    previous_computation = data;
+    return returndata;
 }

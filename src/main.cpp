@@ -11,35 +11,57 @@
 #define Pin_PWM_Right 9
 #define Pin_Dir_Right 15
 #include "Ramp.h"
-
-double Kp = 1;
-double Ki = 0.1; // 0.1
-double Kd = 0.02; // 0.5
+#include "targets/BezierTarget.h"
+#include "Matrix22.h"
+#include "targets/PositionTarget.h"
+#include "targets/RotateTowardPositionTarget.h"
 
 Robot* robot;
 Motor* left_motor = new Motor(Pin_Dir_Left, Pin_PWM_Left);
 Motor* right_motor = new Motor(Pin_Dir_Right, Pin_PWM_Right);
-void setup() {
+
+//uint64_t last_time;
+int freeMemory() {
+    extern int __heap_start, *__brkval;
+    int v;
+    return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
+}
+
+uint64_t previous_micros;
+void setup() {    // Disable watchdog on boot
     Serial.begin(9600);
     delay(5000);
+    Position init_pos(-1000,0,0);
+    Position pos(1000,1000,0);
+    //last_time = micros();
     robot = new Robot(left_motor,right_motor, TICK_PER_MM, TRACK_MM, 1.0f);
     robot->setPidDistance(new PID(3, 0.1, 0.02));
-    robot->setPidAngle(new PID(4, 0.2, 0.01));
+    robot->setPidAngle(new PID(2, 0.02, 0.01));
+    robot->addTarget(new PositionTarget(robot, init_pos, 300,400,300));
+    robot->addTarget(new BezierTarget(robot, 300, 400, 300, pos, 1000));
+    robot->addTarget(new PositionTarget(robot, {0,1000}, 300,400,300));
+    robot->addTarget(new RotateTowardPositionTarget(robot, {0,0}));
+    robot->addTarget(new PositionTarget(robot, {0,0}, 300, 400, 300));
+    previous_micros = micros();
     //robot->addTarget(new AngleTarget(robot, 360));
     //robot->addTarget(new AngleTarget(robot, -170));
-    Position pos(1000,1000,0);
-    robot->addTarget(new RotateTowardPositionTarget(robot, pos));
-    robot->addTarget(new PositionTarget(robot, pos, 300, 400, 300, 300));
-    pos = pos+pos;
-    robot->addTarget(new PositionTarget(robot, pos, 300, 600, 150));
+    //robot->addTarget(new RotateTowardPositionTarget(robot, pos));
+    //robot->addTarget(new PositionTarget(robot, pos, 300, 400, 300, 300));
+    //robot->addTarget(new PositionTarget(robot, pos, 300, 600, 150));
 // write your initialization code here
 }
 
 void loop() {
+    while(micros() - previous_micros < 5000);
+    previous_micros = micros();
     delayMicroseconds(5000);
     robot->computePosition(Romi32U4Encoders::getCountsAndResetLeft(), Romi32U4Encoders::getCountsAndResetRight());
     robot->computeTarget();
     robot->control();
+    //uint64_t next = micros();
+    //Serial.println(((double)(next-last_time))/1000.0f);
+    //last_time = next;
     Serial.println(*robot);
+    //Serial.println(freeMemory());
 // write your code here
 }

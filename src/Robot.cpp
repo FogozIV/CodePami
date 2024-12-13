@@ -9,8 +9,13 @@ Robot::Robot(Motor *left_motor, Motor *right_motor, double pulse_per_mm, double 
 }
 
 void Robot::computePosition(int16_t delta_left_tick, int16_t delta_right_tick) {
+    double mult = 1;
+    double angle = correctAngle(target_angle - total_angle);
+    //We go backward
+    if(!done_distance && (angle < -90 || angle > 90))
+        mult = -1;
     double distance = ((double) (delta_left_tick + delta_right_tick * corr_right_wheel)) / (2.0f * pulse_per_mm);
-    total_distance += distance;
+    total_distance += mult* distance;
     double dtheta = (delta_right_tick * corr_right_wheel - delta_left_tick) / (2.0f * pulse_per_mm);
     double arc_angle = 2 * dtheta / track_mm;
     double deg_arc_angle = arc_angle/M_PI * 180.0f;
@@ -30,8 +35,12 @@ void Robot::computePosition(int16_t delta_left_tick, int16_t delta_right_tick) {
 
 void Robot::control() {
     if(pid_distance != nullptr && pid_angle != nullptr){
-        double distance_term = (done_distance && abs(target_distance - total_distance) < 5) ? 0 : pid_distance->evaluate(target_distance - total_distance);
-        double angle_term = done_angle ? 0 : pid_angle->evaluate(target_angle - total_angle);
+        double angle = correctAngle(target_angle - total_angle);
+        double mult = 1;
+        if((angle < -90 || angle > 90) && !done_distance)
+            mult = -1;
+        double distance_term = mult*((done_distance && abs(target_distance - total_distance) < 5) ? 0 : pid_distance->evaluate(target_distance - total_distance));
+        double angle_term = done_angle ? 0 : mult!=1 ?pid_angle->evaluate(correctAngle(target_angle - total_angle-180)) :pid_angle->evaluate(target_angle - total_angle);
         int16_t left_wheel = constrain(constrain(distance_term, -200, 200) - constrain(angle_term, -200, 200), -255, 255);
         int16_t right_wheel = constrain(constrain(distance_term, -200, 200) + constrain(angle_term, -200, 200), -255, 255);
         this->right_motor->setPWM(right_wheel);

@@ -37,7 +37,7 @@ void Position::add(double x, double y, double a){
 double Position::getDistance() const {
     return sqrt(pow(this->x, 2) + pow(this->y, 2));
 }
-
+#ifdef REAL_BOARD
 size_t Position::printTo(Print &p) const {
     size_t length = 0;
     length += p.print("x: ");
@@ -48,6 +48,7 @@ size_t Position::printTo(Print &p) const {
     length += p.print(a*180/M_PI);
     return length;
 }
+#endif
 
 Position Position::operator+(const Position& pos) const{
   return {this->x + pos.x, this->y + pos.y, this->a+ pos.a};

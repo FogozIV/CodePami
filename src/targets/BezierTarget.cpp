@@ -1,26 +1,26 @@
 //
 // Created by fogoz on 11/12/2024.
 //
-#include "Target.h"
+#include "./targets/BezierTarget.h"
 #include "Robot.h"
-#include "CourbeBezier.h"
+#include "curves/BezierCurve.h"
 
-BezierTarget::BezierTarget(Robot *robot, Position end_pos): Target(robot), end_pos(end_pos) {
+BezierTarget::BezierTarget(Robot *robot, double acc, double max_speed, double dec, Position end_pos, double multiplier): CurveTarget(robot, acc, max_speed, dec, (Position&&)end_pos), multiplier(multiplier){
 
 }
 
 void BezierTarget::init(){
-    this->curve = new CourbeBezier(robot->getPosition(), end_pos);
+    this->curve = new BezierCurve(robot->getPosition(), end_pos, multiplier);
+    this->distanceRamp = new Ramp(acc, max_speed, dec, this->curve->getLength(), 0.0f, 0.0f);
+    this->distanceRamp->start(robot->getTotalDistance());
+    robot->setDoneAngle(false);
+    robot->setDoneDistance(false);
+    this->t = this->curve->getTForLength(NAN, 30.0f);
+    this->target_pos = this->curve->getPosition(this->t);
 }
 
-bool BezierTarget::is_done(){
-    return done;
-}
-
-void BezierTarget::process(){
+void BezierTarget::on_done() {
 
 }
 
-void BezierTarget::on_done(){
 
-}

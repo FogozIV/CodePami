@@ -1,7 +1,7 @@
 //
 // Created by fogoz on 07/12/2024.
 //
-#include "Target.h"
+#include "./targets/AngleTarget.h"
 #include "Robot.h"
 
 
@@ -17,7 +17,6 @@ void AngleTarget::process() {
 }
 
 void AngleTarget::init() {
-    Serial.println(robot->getAbsoluteAngle(target));
     ramp = new Ramp(acc, max_speed, dec, robot->getAbsoluteAngle(target) - robot->getTargetAngle());
     ramp->start(robot->getTotalAngle());
     robot->setDoneAngle(false);
@@ -36,6 +35,5 @@ AngleTarget::AngleTarget(Robot *robot, double target, double acc, double dec, do
 }
 
 void AngleTarget::on_done() {
-    Serial.println("Called");
     robot->setTargetDistance(robot->getTotalDistance());
 }

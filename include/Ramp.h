@@ -22,6 +22,8 @@ class Ramp {
     double sign;
     double ste_speed;
 
+    bool increment;
+
     struct Private{
         bool done;
         double speed;
@@ -56,6 +58,8 @@ public:
     void start(double wheel_distance);
 
     const RampReturnData compute(double distance_to_point, double wheel_distance);
+
+    const RampReturnData compute();
 
 };
 

@@ -1,10 +1,16 @@
+#ifdef REAL_BOARD
 #include "Arduino.h"
+#else
 
+#endif
 #ifndef POSITION_H
 #define POSITION_H
 
+#ifdef REAL_BOARD
 class Position : public Printable {
-
+#else
+class Position{
+#endif
 private:
     double x;
     double y;
@@ -23,7 +29,7 @@ private:
 
     double getVectorAngle() const;
 
-    void add(double x, double y, double a);
+    void add(double x, double y, double a=0.0f);
 
     Position operator+(const Position& rhs) const;
 
@@ -35,13 +41,16 @@ private:
 
     Position operator/(double rhs) const;
 
+#ifdef REAL_BOARD
     size_t printTo(Print& p) const override;
-
+#endif
     double getAngleRad() const;
 
     double getVectorAngleRad() const;
 
     Position getSinCosAngle() const;
+
+
 };
 
 

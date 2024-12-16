@@ -97,6 +97,10 @@ class Robot : public Printable{
 
     double getAbsoluteAngle(double a) const;
 
+    void setTotalDistance(double totalDistance);
+
+    void setTotalAngle(double totalAngle);
+
 
 };
 #endif

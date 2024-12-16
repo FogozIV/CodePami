@@ -20,9 +20,8 @@ void CurveTarget::process(){
     if((target_pos-robot->getPosition()).getDistance() < 15 && t != 1.0f) {
         this->t = this->curve->getTForLength(this->t, 40.0f);
         target_pos = this->curve->getPosition(this->t);
-        Serial.println(this->t);
-        Serial.println(target_pos);
     }
+    robot->setRampSpeed(data.speed);
     robot->setTargetAngle(robot->getAbsoluteAngle((target_pos-robot->getPosition()).getVectorAngle()));
     if(t>=1.0f && distance < 10){
         robot->setTargetDistance(robot->getTotalDistance());

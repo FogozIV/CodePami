@@ -14,7 +14,7 @@ class AngleTarget : public Target{
     double dec;
     bool done = false;
 public:
-    AngleTarget(Robot *robot, double target, double acc=10, double dec=10, double max_speed=45);
+    AngleTarget(Robot *robot, double target, double acc=90, double dec=90, double max_speed=90);
 
     ~AngleTarget() override;
 

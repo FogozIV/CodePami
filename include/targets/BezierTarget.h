@@ -2,8 +2,8 @@
 // Created by fogoz on 13/12/2024.
 //
 
-#ifndef CODEPAMI_ANGLETARGET_H
-#define CODEPAMI_ANGLETARGET_H
+#ifndef CODEPAMI_BEZIERTARGET_H
+#define CODEPAMI_BEZIERTARGET_H
 #include "CurveTarget.h"
 
 class BezierTarget : public CurveTarget {

@@ -40,7 +40,7 @@ void Robot::control() {
         if((angle < -90 || angle > 90) && !done_distance)
             mult = -1;
         double distance_term = mult*((done_distance && abs(target_distance - total_distance) < 5) ? 0 : pid_distance->evaluate(target_distance - total_distance));
-        double angle_term = done_angle ? 0 : mult!=1 ?pid_angle->evaluate(correctAngle(target_angle - total_angle-180)) :pid_angle->evaluate(target_angle - total_angle);
+        double angle_term = done_angle ? 0 : mult!=1 ?pid_angle->evaluate(correctAngle(target_angle - total_angle-180)) :pid_angle->evaluate(correctAngle(target_angle - total_angle));
         int16_t left_wheel = constrain(constrain(distance_term, -200, 200) - constrain(angle_term, -200, 200), -255, 255);
         int16_t right_wheel = constrain(constrain(distance_term, -200, 200) + constrain(angle_term, -200, 200), -255, 255);
         this->right_motor->setPWM(right_wheel);
@@ -176,6 +176,14 @@ double Robot::getRelativeAngle(double a) const {
 
 double Robot::getAbsoluteAngle(double a) const {
     return getTotalAngle() + a - correctAngle(getTotalAngle());
+}
+
+void Robot::setTotalDistance(double totalDistance) {
+    total_distance = totalDistance;
+}
+
+void Robot::setTotalAngle(double totalAngle) {
+    total_angle = totalAngle;
 }
 
 Motor::Motor(uint8_t dir_pin, uint8_t pwm_pin, bool inverse) {

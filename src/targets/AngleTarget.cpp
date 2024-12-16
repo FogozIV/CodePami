@@ -10,14 +10,14 @@ bool AngleTarget::is_done() {
 }
 
 void AngleTarget::process() {
-    RampReturnData data = ramp->compute(robot->getAbsoluteAngle(target) - robot->getTotalAngle(), robot->getTotalAngle());
+    RampReturnData data = ramp->compute();
     robot->setRampSpeedAngle(data.speed);
     robot->setTargetAngle(robot->getTargetAngle() + data.distance_increment);
     done = data.end;
 }
 
 void AngleTarget::init() {
-    ramp = new Ramp(acc, max_speed, dec, robot->getAbsoluteAngle(target) - robot->getTargetAngle());
+    ramp = new Ramp(acc, max_speed, dec, correctAngle(target-robot->getPosition().getAngle()));
     ramp->start(robot->getTotalAngle());
     robot->setDoneAngle(false);
     robot->setDoneDistance(true);

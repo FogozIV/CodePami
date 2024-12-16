@@ -15,7 +15,7 @@ class RotateTowardPositionTarget : public Target{
     bool done = false;
     double target;
 public:
-    RotateTowardPositionTarget(Robot *robot, const Position& pos, double acc=10, double dec=10, double max_speed=45);
+    RotateTowardPositionTarget(Robot *robot, const Position& pos, double acc=90, double dec=90, double max_speed=90);
 
     void init() override;
 

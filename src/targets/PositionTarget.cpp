@@ -11,6 +11,7 @@ void PositionTarget::init() {
     ramp->start(robot->getTotalDistance());
     robot->setDoneAngle(false);
     robot->setDoneDistance(false);
+    robot->setTotalAngle(robot->getPosition().getAngle());
 }
 
 bool PositionTarget::is_done() {
@@ -22,11 +23,12 @@ void PositionTarget::process() {
     RampReturnData data = ramp->compute(distance, robot->getTotalDistance());
     robot->setRampSpeed(data.speed);
     robot->setTargetDistance(robot->getTargetDistance() + data.distance_increment);
-    robot->setTargetAngle(robot->getAbsoluteAngle((pos-robot->getPosition()).getVectorAngle()));
+    robot->setTargetAngle(correctAngle((pos-robot->getPosition()).getVectorAngle()));
     done = data.end;
     robot->setDoneDistance(data.stop);
     if(distance < 5) {
-        robot->setTargetDistance(robot->getTotalDistance());
+        if(end_speed == 0.0f)
+            robot->setTargetDistance(robot->getTotalDistance());
         robot->setDoneAngle(true);
     }else{
         robot->setDoneAngle(false);
@@ -38,6 +40,7 @@ PositionTarget::~PositionTarget() {
 }
 
 void PositionTarget::on_done() {
-    robot->setTargetDistance(robot->getTotalDistance());
+    if(end_speed == 0.0f)
+        robot->setTargetDistance(robot->getTotalDistance());
     robot->setTargetAngle(robot->getTotalAngle());
 }

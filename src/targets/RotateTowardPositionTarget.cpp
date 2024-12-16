@@ -7,7 +7,9 @@
 
 void RotateTowardPositionTarget::init() {
     target = (pos-robot->getPosition()).getVectorAngle();
-    ramp = new Ramp(acc, max_speed, dec, robot->getAbsoluteAngle(target) - robot->getTargetAngle());
+    Serial.println(target- robot->getTargetAngle());
+    Serial.println(correctAngle(target- robot->getTargetAngle()));
+    ramp = new Ramp(acc, max_speed, dec, correctAngle(target- robot->getTargetAngle()));
     ramp->start(robot->getTotalAngle());
     robot->setDoneAngle(false);
     robot->setDoneDistance(true);
@@ -18,7 +20,7 @@ bool RotateTowardPositionTarget::is_done() {
 }
 
 void RotateTowardPositionTarget::process() {
-    RampReturnData data = ramp->compute(robot->getAbsoluteAngle(target) - robot->getTotalAngle(), robot->getTotalAngle());
+    RampReturnData data = ramp->compute();
     robot->setRampSpeedAngle(data.speed);
     robot->setTargetAngle(robot->getTargetAngle() + data.distance_increment);
     done = data.end;

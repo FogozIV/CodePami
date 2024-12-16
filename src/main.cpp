@@ -12,9 +12,10 @@
 #define Pin_Dir_Right 15
 #include "Ramp.h"
 #include "targets/BezierTarget.h"
-#include "Matrix22.h"
 #include "targets/PositionTarget.h"
 #include "targets/RotateTowardPositionTarget.h"
+#include "targets/AngleTarget.h"
+#include <Wire.h>
 
 Robot* robot;
 Motor* left_motor = new Motor(Pin_Dir_Left, Pin_PWM_Left);
@@ -32,16 +33,18 @@ void setup() {    // Disable watchdog on boot
     Serial.begin(9600);
     delay(5000);
     Position init_pos(-1000,0,0);
-    Position pos(1000,1000,0);
+    Position pos(1000,1000,90*M_PI/180);
     //last_time = micros();
     robot = new Robot(left_motor,right_motor, TICK_PER_MM, TRACK_MM, 1.0f);
     robot->setPidDistance(new PID(3, 0.1, 0.02));
     robot->setPidAngle(new PID(2, 0.02, 0.01));
     robot->addTarget(new PositionTarget(robot, init_pos, 300,400,300));
-    robot->addTarget(new BezierTarget(robot, 300, 400, 300, pos, 1000));
+    robot->addTarget(new BezierTarget(robot, 300, 400, 300, pos, 3000));
+    robot->addTarget(new RotateTowardPositionTarget(robot, {0,1000}));
     robot->addTarget(new PositionTarget(robot, {0,1000}, 300,400,300));
     robot->addTarget(new RotateTowardPositionTarget(robot, {0,0}));
     robot->addTarget(new PositionTarget(robot, {0,0}, 300, 400, 300));
+    robot->addTarget(new AngleTarget(robot, 0));
     previous_micros = micros();
     //robot->addTarget(new AngleTarget(robot, 360));
     //robot->addTarget(new AngleTarget(robot, -170));

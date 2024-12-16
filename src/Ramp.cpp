@@ -6,7 +6,7 @@
 
 #define SIGN(x) (x > 0 ? 1 : -1)
 
-Ramp::Ramp(double acc, double max_speed, double dec, double distance, double initial_speed, double end_speed) {
+Ramp::Ramp(PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, PRECISION_DATA_TYPE distance, PRECISION_DATA_TYPE initial_speed, PRECISION_DATA_TYPE end_speed) {
     this->acc = acc;
     this->dec = dec;
 
@@ -62,17 +62,17 @@ Ramp::Ramp(double acc, double max_speed, double dec, double distance, double ini
 
 }
 
-void Ramp::start(double start_wheel) {
+void Ramp::start(PRECISION_DATA_TYPE start_wheel) {
     this->init_time = micros();
     this->sign_corrected.wheel_distance = sign * start_wheel;
 }
 
-const RampReturnData Ramp::compute(double distance_to_point, double wheel_distance) {
+const RampReturnData Ramp::compute(PRECISION_DATA_TYPE distance_to_point, PRECISION_DATA_TYPE wheel_distance) {
     if(this->init_time == 0){
         return {false, 0, false, false};
     }
     RampReturnData returndata;
-    double time = ((double)(micros() - this->init_time))/1e6;
+    PRECISION_DATA_TYPE time = ((PRECISION_DATA_TYPE)(micros() - this->init_time))/1e6;
     if(increment)
         update_ste_time(time, distance_to_point, wheel_distance);
     Ramp::Private data = compute_at_time(time);
@@ -85,9 +85,9 @@ const RampReturnData Ramp::compute(double distance_to_point, double wheel_distan
     return returndata;
 }
 
-const Ramp::Private Ramp::compute_at_time(double time) const {
-    double current_speed;
-    double distance;
+const Ramp::Private Ramp::compute_at_time(PRECISION_DATA_TYPE time) const {
+    PRECISION_DATA_TYPE current_speed;
+    PRECISION_DATA_TYPE distance;
     bool done = false;
     if(time < acc_time){
         current_speed = sign_corrected.initial_speed + acc * time;
@@ -106,7 +106,7 @@ const Ramp::Private Ramp::compute_at_time(double time) const {
     return {done, current_speed * this->sign, distance * this->sign};
 }
 
-void Ramp::update_ste_time(double time, double distance, double wheel_distance) {
+void Ramp::update_ste_time(PRECISION_DATA_TYPE time, PRECISION_DATA_TYPE distance, PRECISION_DATA_TYPE wheel_distance) {
 
     if(time > acc_time && time < acc_time + ste_time)
         ste_time = init_ste_time + ((sign * wheel_distance - sign_corrected.wheel_distance) + sign * distance - sign_corrected.point_distance)/ste_speed;
@@ -118,7 +118,7 @@ const RampReturnData Ramp::compute() {
         return {false, 0, false, false};
     }
     RampReturnData returndata;
-    double time = ((double)(micros() - this->init_time))/1e6;
+    PRECISION_DATA_TYPE time = ((PRECISION_DATA_TYPE)(micros() - this->init_time))/1e6;
     Ramp::Private data = compute_at_time(time);
     if(!isnan(previous_computation.speed)){
         returndata = {data.done,data.distance - previous_computation.distance, data.speed, data.done && data.speed == 0.0, true};

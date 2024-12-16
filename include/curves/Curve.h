@@ -12,14 +12,14 @@ protected:
     double max_value;
 
 public:
-    Curve(double min_value, double max_value);
+    Curve(PRECISION_DATA_TYPE min_value, PRECISION_DATA_TYPE max_value);
 
-    virtual Position getPosition(double time) const = 0;
-    virtual Position getDerivative(double time) const = 0;
+    virtual Position getPosition(PRECISION_DATA_TYPE time) const = 0;
+    virtual Position getDerivative(PRECISION_DATA_TYPE time) const = 0;
 
-    double getLength(double h=0.01f) const;
+    PRECISION_DATA_TYPE getLength(PRECISION_DATA_TYPE h=0.01f) const;
 
-    double getTForLength(double ti=NAN, double length=100.0f, double h=0.01f) const;
+    PRECISION_DATA_TYPE getTForLength(PRECISION_DATA_TYPE ti=NAN, PRECISION_DATA_TYPE length=100.0f, PRECISION_DATA_TYPE h=0.01f) const;
 
     virtual ~Curve();
 };

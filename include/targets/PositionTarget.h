@@ -9,14 +9,14 @@
 class PositionTarget : public Target{
     Position pos;
     Ramp* ramp = nullptr;
-    double max_speed;
-    double acc;
-    double dec;
+    PRECISION_DATA_TYPE max_speed;
+    PRECISION_DATA_TYPE acc;
+    PRECISION_DATA_TYPE dec;
     bool done = false;
-    double end_speed;
+    PRECISION_DATA_TYPE end_speed;
     bool backward = false;
 public:
-    PositionTarget(Robot *robot, const Position &pos, double acc=100, double dec=100, double max_speed=200, double end_speed=0.0);
+    PositionTarget(Robot *robot, const Position &pos, PRECISION_DATA_TYPE acc=100, PRECISION_DATA_TYPE dec=100, PRECISION_DATA_TYPE max_speed=200, PRECISION_DATA_TYPE end_speed=0.0);
 
     void init() override;
 

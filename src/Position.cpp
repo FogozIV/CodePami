@@ -1,29 +1,29 @@
 #include "Position.h"
 
-Position::Position(double x, double y, double a) : x(x), y(y), a(a){
+Position::Position(PRECISION_DATA_TYPE x, PRECISION_DATA_TYPE y, PRECISION_DATA_TYPE a) : x(x), y(y), a(a){
     while(this->a > M_PI)
         this->a -= 2*M_PI;
     while(this->a < -M_PI)
         this->a += 2*M_PI;
 }
 
-double Position::getX() const{
+PRECISION_DATA_TYPE Position::getX() const{
     return x;
 }
 
-double Position::getY() const{
+PRECISION_DATA_TYPE Position::getY() const{
     return y;
 }
 
-double Position::getAngle() const{
+PRECISION_DATA_TYPE Position::getAngle() const{
     return a*180/M_PI;
 }
 
-double Position::getAngleRad() const {
+PRECISION_DATA_TYPE Position::getAngleRad() const {
     return a;
 }
 
-void Position::add(double x, double y, double a){
+void Position::add(PRECISION_DATA_TYPE x, PRECISION_DATA_TYPE y, PRECISION_DATA_TYPE a){
   this->x += x;
   this->y += y;
   this->a += a;
@@ -34,7 +34,7 @@ void Position::add(double x, double y, double a){
 }
 
 
-double Position::getDistance() const {
+PRECISION_DATA_TYPE Position::getDistance() const {
     return sqrt(pow(this->x, 2) + pow(this->y, 2));
 }
 #ifdef REAL_BOARD
@@ -71,19 +71,19 @@ Position Position::operator+=(const Position &rhs) {
     return *this;
 }
 
-Position Position::operator*(const double rhs) const {
+Position Position::operator*(const PRECISION_DATA_TYPE rhs) const {
     return {this->x * rhs, this->y * rhs, this->a * rhs};
 }
 
-Position Position::operator/(const double rhs) const{
+Position Position::operator/(const PRECISION_DATA_TYPE rhs) const{
     return {this->x / rhs, this->y / rhs, this->a / rhs};
 }
 
-double Position::getVectorAngle() const {
+PRECISION_DATA_TYPE Position::getVectorAngle() const {
     return atan2(this->y, this->x) / M_PI * 180;
 }
 
-double Position::getVectorAngleRad() const {
+PRECISION_DATA_TYPE Position::getVectorAngleRad() const {
     return atan2(this->y, this->x) ;
 }
 

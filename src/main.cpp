@@ -1,8 +1,10 @@
 #include <Arduino.h>
 
+#define PRECISION_DATA_TYPE float
 #include "Position.h"
 #include "Robot.h"
 #include <Romi32U4.h>
+
 
 #define TRACK_MM 142.0f
 #define TICK_PER_MM 6.58f

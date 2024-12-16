@@ -5,7 +5,7 @@
 #include "Robot.h"
 #include "curves/BezierCurve.h"
 
-BezierTarget::BezierTarget(Robot *robot, double acc, double max_speed, double dec, Position end_pos, double multiplier): CurveTarget(robot, acc, max_speed, dec, (Position&&)end_pos), multiplier(multiplier){
+BezierTarget::BezierTarget(Robot *robot, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, Position end_pos, PRECISION_DATA_TYPE multiplier): CurveTarget(robot, acc, max_speed, dec, (Position&&)end_pos), multiplier(multiplier){
 
 }
 

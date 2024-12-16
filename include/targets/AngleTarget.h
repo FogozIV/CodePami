@@ -7,14 +7,14 @@
 #include "Target.h"
 
 class AngleTarget : public Target{
-    double target;
+    PRECISION_DATA_TYPE target;
     Ramp* ramp = nullptr;
-    double max_speed;
-    double acc;
-    double dec;
+    PRECISION_DATA_TYPE max_speed;
+    PRECISION_DATA_TYPE acc;
+    PRECISION_DATA_TYPE dec;
     bool done = false;
 public:
-    AngleTarget(Robot *robot, double target, double acc=90, double dec=90, double max_speed=90);
+    AngleTarget(Robot *robot, PRECISION_DATA_TYPE target, PRECISION_DATA_TYPE acc=90, PRECISION_DATA_TYPE dec=90, PRECISION_DATA_TYPE max_speed=90);
 
     ~AngleTarget() override;
 

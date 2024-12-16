@@ -5,59 +5,59 @@
 
 #ifndef CODEPAMI_RAMP_H
 #define CODEPAMI_RAMP_H
-
+#include "config.h"
 
 
 struct RampReturnData{
     bool end;
-    double distance_increment;
-    double speed;
+    PRECISION_DATA_TYPE distance_increment;
+    PRECISION_DATA_TYPE speed;
     bool stop;
     bool started;
 };
 
 class Ramp {
-    double acc;
-    double dec;
-    double sign;
-    double ste_speed;
+    PRECISION_DATA_TYPE acc;
+    PRECISION_DATA_TYPE dec;
+    PRECISION_DATA_TYPE sign;
+    PRECISION_DATA_TYPE ste_speed;
 
     bool increment;
 
     struct Private{
         bool done;
-        double speed;
-        double distance;
+        PRECISION_DATA_TYPE speed;
+        PRECISION_DATA_TYPE distance;
     };
 
-    double dec_time;
-    double acc_time;
-    double ste_time;
+    PRECISION_DATA_TYPE dec_time;
+    PRECISION_DATA_TYPE acc_time;
+    PRECISION_DATA_TYPE ste_time;
 
-    double init_ste_time;
+    PRECISION_DATA_TYPE init_ste_time;
 
     uint64_t init_time = 0;
 
     Ramp::Private previous_computation = {false, NAN, NAN};
 
     struct{
-        double initial_speed;
-        double current_speed;
-        double end_speed;
-        double acc_distance;
-        double dec_distance;
+        PRECISION_DATA_TYPE initial_speed;
+        PRECISION_DATA_TYPE current_speed;
+        PRECISION_DATA_TYPE end_speed;
+        PRECISION_DATA_TYPE acc_distance;
+        PRECISION_DATA_TYPE dec_distance;
 
-        double point_distance = 0;
-        double wheel_distance = 0;
+        PRECISION_DATA_TYPE point_distance = 0;
+        PRECISION_DATA_TYPE wheel_distance = 0;
     }sign_corrected;
-    const Private compute_at_time(double time) const;
-    void update_ste_time(double time, double distance, double wheel_distance);
+    const Private compute_at_time(PRECISION_DATA_TYPE time) const;
+    void update_ste_time(PRECISION_DATA_TYPE time, PRECISION_DATA_TYPE distance, PRECISION_DATA_TYPE wheel_distance);
 public:
-    Ramp(double acc, double max_speed, double dec, double distance, double initial_speed=0.0f, double end_speed=0.0f);
+    Ramp(PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, PRECISION_DATA_TYPE distance, PRECISION_DATA_TYPE initial_speed=0.0f, PRECISION_DATA_TYPE end_speed=0.0f);
 
-    void start(double wheel_distance);
+    void start(PRECISION_DATA_TYPE wheel_distance);
 
-    const RampReturnData compute(double distance_to_point, double wheel_distance);
+    const RampReturnData compute(PRECISION_DATA_TYPE distance_to_point, PRECISION_DATA_TYPE wheel_distance);
 
     const RampReturnData compute();
 

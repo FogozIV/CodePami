@@ -32,8 +32,8 @@ RotateTowardPositionTarget::~RotateTowardPositionTarget() {
     delete ramp;
 }
 
-RotateTowardPositionTarget::RotateTowardPositionTarget(Robot *robot, const Position &pos, double acc, double dec,
-                                                       double max_speed): Target(robot), pos(pos), max_speed(max_speed), acc(acc), dec(dec) {
+RotateTowardPositionTarget::RotateTowardPositionTarget(Robot *robot, const Position &pos, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE dec,
+                                                       PRECISION_DATA_TYPE max_speed): Target(robot), pos(pos), max_speed(max_speed), acc(acc), dec(dec) {
 
 }
 

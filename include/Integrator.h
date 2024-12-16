@@ -7,14 +7,14 @@
 
 template <typename Func>
 // Implement the generalized RK4 method
-void runge_kutta_4(double t0, double* y0, int n, double t_end, double h, Func f) {
-    double t = t0; // Current time
-    double* y = new double[n]; // Current state vector
-    double* k1 = new double[n];
-    double* k2 = new double[n];
-    double* k3 = new double[n];
-    double* k4 = new double[n];
-    double* temp = new double[n]; // Temporary state vector
+void runge_kutta_4(PRECISION_DATA_TYPE t0, PRECISION_DATA_TYPE* y0, int n, PRECISION_DATA_TYPE t_end, PRECISION_DATA_TYPE h, Func f) {
+    PRECISION_DATA_TYPE t = t0; // Current time
+    PRECISION_DATA_TYPE* y = new PRECISION_DATA_TYPE[n]; // Current state vector
+    PRECISION_DATA_TYPE* k1 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* k2 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* k3 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* k4 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* temp = new PRECISION_DATA_TYPE[n]; // Temporary state vector
 
     // Initialize y with the initial condition y0
     for (int i = 0; i < n; ++i) {
@@ -71,14 +71,14 @@ void runge_kutta_4(double t0, double* y0, int n, double t_end, double h, Func f)
 
 
 template <typename Func>
-double runge_kutta_4_maximized(double t0, double* y0, int n, double t_end, double h, Func f, const double* lookup_length) {
-    double t = t0; // Current time
-    double* y = new double[n]; // Current state vector
-    double* k1 = new double[n];
-    double* k2 = new double[n];
-    double* k3 = new double[n];
-    double* k4 = new double[n];
-    double* temp = new double[n]; // Temporary state vector
+PRECISION_DATA_TYPE runge_kutta_4_maximized(PRECISION_DATA_TYPE t0, PRECISION_DATA_TYPE* y0, int n, PRECISION_DATA_TYPE t_end, PRECISION_DATA_TYPE h, Func f, const PRECISION_DATA_TYPE* lookup_length) {
+    PRECISION_DATA_TYPE t = t0; // Current time
+    PRECISION_DATA_TYPE* y = new PRECISION_DATA_TYPE[n]; // Current state vector
+    PRECISION_DATA_TYPE* k1 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* k2 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* k3 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* k4 = new PRECISION_DATA_TYPE[n];
+    PRECISION_DATA_TYPE* temp = new PRECISION_DATA_TYPE[n]; // Temporary state vector
 
     for (int i = 0; i < n; ++i) {
         y[i] = y0[i];

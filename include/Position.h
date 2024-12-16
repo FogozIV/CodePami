@@ -1,5 +1,7 @@
 #ifdef REAL_BOARD
 #include "Arduino.h"
+#include "config.h"
+
 #else
 
 #endif
@@ -12,24 +14,24 @@ class Position : public Printable {
 class Position{
 #endif
 private:
-    double x;
-    double y;
-    double a;
+    PRECISION_DATA_TYPE x;
+    PRECISION_DATA_TYPE y;
+    PRECISION_DATA_TYPE a;
 
     public:
-    Position(double x=0.0f, double y=0.0f, double a=0.0f);
-    
-    double getX() const;
-    
-    double getY() const;
+    Position(PRECISION_DATA_TYPE x=0.0f, PRECISION_DATA_TYPE y=0.0f, PRECISION_DATA_TYPE a=0.0f);
 
-    double getAngle() const;
+    PRECISION_DATA_TYPE getX() const;
 
-    double getDistance() const;
+    PRECISION_DATA_TYPE getY() const;
 
-    double getVectorAngle() const;
+    PRECISION_DATA_TYPE getAngle() const;
 
-    void add(double x, double y, double a=0.0f);
+    PRECISION_DATA_TYPE getDistance() const;
+
+    PRECISION_DATA_TYPE getVectorAngle() const;
+
+    void add(PRECISION_DATA_TYPE x, PRECISION_DATA_TYPE y, PRECISION_DATA_TYPE a=0.0f);
 
     Position operator+(const Position& rhs) const;
 
@@ -37,16 +39,16 @@ private:
 
     Position operator+=(const Position& rhs);
 
-    Position operator*(double rhs) const;
+    Position operator*(PRECISION_DATA_TYPE rhs) const;
 
-    Position operator/(double rhs) const;
+    Position operator/(PRECISION_DATA_TYPE rhs) const;
 
 #ifdef REAL_BOARD
     size_t printTo(Print& p) const override;
 #endif
-    double getAngleRad() const;
+    PRECISION_DATA_TYPE getAngleRad() const;
 
-    double getVectorAngleRad() const;
+    PRECISION_DATA_TYPE getVectorAngleRad() const;
 
     Position getSinCosAngle() const;
 

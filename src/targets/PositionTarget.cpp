@@ -4,7 +4,7 @@
 #include "./targets/PositionTarget.h"
 #include "Robot.h"
 
-PositionTarget::PositionTarget(Robot *robot, const Position &pos, double acc, double dec, double max_speed, double end_speed) : Target(robot), pos(pos), max_speed(max_speed), acc(acc), dec(dec), end_speed(end_speed) {}
+PositionTarget::PositionTarget(Robot *robot, const Position &pos, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE dec, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE end_speed) : Target(robot), pos(pos), max_speed(max_speed), acc(acc), dec(dec), end_speed(end_speed) {}
 
 void PositionTarget::init() {
     ramp = new Ramp(acc, max_speed, dec, (pos-robot->getPosition()).getDistance(), robot->getRampSpeed(), end_speed);
@@ -19,7 +19,7 @@ bool PositionTarget::is_done() {
 }
 
 void PositionTarget::process() {
-    double distance = (pos-robot->getPosition()).getDistance();
+    PRECISION_DATA_TYPE distance = (pos-robot->getPosition()).getDistance();
     RampReturnData data = ramp->compute(distance, robot->getTotalDistance());
     robot->setRampSpeed(data.speed);
     robot->setTargetDistance(robot->getTargetDistance() + data.distance_increment);

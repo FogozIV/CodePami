@@ -5,7 +5,7 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-double correctAngle(double angle);
+PRECISION_DATA_TYPE correctAngle(PRECISION_DATA_TYPE angle);
 class Motor{
     uint8_t dir_pin;
     uint8_t pwm_pin;
@@ -21,31 +21,31 @@ public:
 
 class Robot : public Printable{
     Position pos;
-    double pulse_per_mm;
-    double track_mm;
-    double corr_right_wheel;
+    PRECISION_DATA_TYPE pulse_per_mm;
+    PRECISION_DATA_TYPE track_mm;
+    PRECISION_DATA_TYPE corr_right_wheel;
     Motor* left_motor = nullptr;
     Motor* right_motor = nullptr;
     uint16_t target_count = 0;
     Target** targets = nullptr;
     uint16_t max_targets = 10;
     uint16_t target_index = 0;
-    double total_distance;
-    double target_distance;
-    double total_angle;
-    double target_angle;
+    PRECISION_DATA_TYPE total_distance;
+    PRECISION_DATA_TYPE target_distance;
+    PRECISION_DATA_TYPE total_angle;
+    PRECISION_DATA_TYPE target_angle;
     PID* pid_distance = nullptr;
     PID* pid_angle = nullptr;
     bool done_distance = false;
     bool done_angle = false;
 
-    double ramp_speed = 0.0f;
-    double ramp_speed_angle = 0.0f;
+    PRECISION_DATA_TYPE ramp_speed = 0.0f;
+    PRECISION_DATA_TYPE ramp_speed_angle = 0.0f;
 
     friend Target;
 
     public:
-    Robot(Motor* left_motor, Motor* right_motor, double pulse_per_mm, double track_mm, double corr_right_wheel, double x=0.0f, double y=0.0f, double a=0.0f);
+    Robot(Motor* left_motor, Motor* right_motor, PRECISION_DATA_TYPE pulse_per_mm, PRECISION_DATA_TYPE track_mm, PRECISION_DATA_TYPE corr_right_wheel, PRECISION_DATA_TYPE x=0.0f, PRECISION_DATA_TYPE y=0.0f, PRECISION_DATA_TYPE a=0.0f);
 
     ~Robot();
 
@@ -65,41 +65,41 @@ class Robot : public Printable{
 
     size_t printTo(Print &p) const override;
 
-    double getTargetDistance() const;
+    PRECISION_DATA_TYPE getTargetDistance() const;
 
-    double getTargetAngle() const;
+    PRECISION_DATA_TYPE getTargetAngle() const;
 
-    double getTotalDistance() const;
+    PRECISION_DATA_TYPE getTotalDistance() const;
 
-    double getTotalAngle() const;
+    PRECISION_DATA_TYPE getTotalAngle() const;
 
     bool isDoneDistance() const;
 
     bool isDoneAngle() const;
 
-    void setTargetDistance(double targetDistance);
+    void setTargetDistance(PRECISION_DATA_TYPE targetDistance);
 
-    void setTargetAngle(double targetAngle);
+    void setTargetAngle(PRECISION_DATA_TYPE targetAngle);
 
     void setDoneDistance(bool doneDistance);
 
     void setDoneAngle(bool doneAngle);
 
-    double getRampSpeed() const;
+    PRECISION_DATA_TYPE getRampSpeed() const;
 
-    void setRampSpeed(double rampSpeed);
+    void setRampSpeed(PRECISION_DATA_TYPE rampSpeed);
 
-    double getRampSpeedAngle() const;
+    PRECISION_DATA_TYPE getRampSpeedAngle() const;
 
-    void setRampSpeedAngle(double rampSpeedAngle);
+    void setRampSpeedAngle(PRECISION_DATA_TYPE rampSpeedAngle);
 
-    double getRelativeAngle(double a) const;
+    PRECISION_DATA_TYPE getRelativeAngle(PRECISION_DATA_TYPE a) const;
 
-    double getAbsoluteAngle(double a) const;
+    PRECISION_DATA_TYPE getAbsoluteAngle(PRECISION_DATA_TYPE a) const;
 
-    void setTotalDistance(double totalDistance);
+    void setTotalDistance(PRECISION_DATA_TYPE totalDistance);
 
-    void setTotalAngle(double totalAngle);
+    void setTotalAngle(PRECISION_DATA_TYPE totalAngle);
 
 
 };

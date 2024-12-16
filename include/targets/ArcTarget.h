@@ -8,7 +8,7 @@
 
 class ArcTarget: public CurveTarget{
     bool done = false;
-    double radius;
+    PRECISION_DATA_TYPE radius;
 public:
 
 };

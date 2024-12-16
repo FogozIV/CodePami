@@ -9,13 +9,13 @@
 class RotateTowardPositionTarget : public Target{
     Position pos;
     Ramp* ramp = nullptr;
-    double max_speed;
-    double acc;
-    double dec;
+    PRECISION_DATA_TYPE max_speed;
+    PRECISION_DATA_TYPE acc;
+    PRECISION_DATA_TYPE dec;
     bool done = false;
-    double target;
+    PRECISION_DATA_TYPE target;
 public:
-    RotateTowardPositionTarget(Robot *robot, const Position& pos, double acc=90, double dec=90, double max_speed=90);
+    RotateTowardPositionTarget(Robot *robot, const Position& pos, PRECISION_DATA_TYPE acc=90, PRECISION_DATA_TYPE dec=90, PRECISION_DATA_TYPE max_speed=90);
 
     void init() override;
 

@@ -8,9 +8,9 @@
 
 class BezierTarget : public CurveTarget {
 protected:
-    double multiplier;
+    PRECISION_DATA_TYPE multiplier;
 public:
-    BezierTarget(Robot *robot, double acc, double max_speed, double dec, Position end_pos, double multiplier=100.0f);
+    BezierTarget(Robot *robot, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, Position end_pos, PRECISION_DATA_TYPE multiplier=100.0f);
 
     void init() override;
 

@@ -27,7 +27,7 @@ AngleTarget::~AngleTarget() {
     delete ramp;
 }
 
-AngleTarget::AngleTarget(Robot *robot, double target, double acc, double dec, double max_speed) : Target(robot) {
+AngleTarget::AngleTarget(Robot *robot, PRECISION_DATA_TYPE target, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE dec, PRECISION_DATA_TYPE max_speed) : Target(robot) {
     this->target = target;
     this->acc = acc;
     this->dec = dec;

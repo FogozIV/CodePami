@@ -11,6 +11,7 @@ BezierCurve::BezierCurve(Position start, Position end, double multiplier) : Curv
       pos2 = start.getSinCosAngle()*multiplier/3 + start;
       pos3 = end - end.getSinCosAngle()*multiplier/3;
       pos4 = end;
+#ifdef DEBUG_TXT
       Serial.print("NEW BEZIER CURVE, pos1 : ");
       Serial.print(pos1);
       Serial.print(" , pos2 : ");
@@ -19,6 +20,7 @@ BezierCurve::BezierCurve(Position start, Position end, double multiplier) : Curv
       Serial.print(pos3);
       Serial.print(" , pos4 : ");
       Serial.println(pos4);
+#endif
 }
 
 Position BezierCurve::getPosition(double time) const{

@@ -27,9 +27,8 @@ int freeMemory() {
     int v;
     return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }
-
 uint64_t previous_micros;
-void setup() {    // Disable watchdog on boot
+void setup() {
     Serial.begin(9600);
     delay(5000);
     Position init_pos(-1000,0,0);
@@ -64,7 +63,9 @@ void loop() {
     //uint64_t next = micros();
     //Serial.println(((double)(next-last_time))/1000.0f);
     //last_time = next;
+#ifdef DEBUG_TXT
     Serial.println(*robot);
+#endif
     //Serial.println(freeMemory());
 // write your code here
 }

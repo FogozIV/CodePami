@@ -36,6 +36,7 @@ Ramp::Ramp(double acc, double max_speed, double dec, double distance, double ini
 
     this->sign_corrected.point_distance = abs(distance);
     this->init_ste_time = this->ste_time;
+#ifdef DEBUG_TXT
     Serial.print("NEW RAMP acc_time : ");
     Serial.print(acc_time);
     Serial.print(", dec_time : ");
@@ -56,6 +57,7 @@ Ramp::Ramp(double acc, double max_speed, double dec, double distance, double ini
     Serial.print(this->sign_corrected.initial_speed);
     Serial.print(", dist : ");
     Serial.println(distance);
+#endif
 
 
 }

@@ -75,6 +75,7 @@ void Robot::setPidAngle(PID *pidAngle) {
 
 size_t Robot::printTo(Print &p) const {
     size_t data = 0;
+#ifdef DEBUG_TXT
     data = p.print("Position : ");
     data += p.print(pos);
     data += p.print(", target distance : ");
@@ -85,6 +86,7 @@ size_t Robot::printTo(Print &p) const {
     data += p.print(target_angle);
     data += p.print(", total angle : ");
     data += p.print(total_angle);
+#endif
     return data;
 }
 

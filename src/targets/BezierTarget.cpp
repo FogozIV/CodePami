@@ -10,8 +10,10 @@ BezierTarget::BezierTarget(Robot *robot, double acc, double max_speed, double de
 }
 
 void BezierTarget::init(){
+#ifdef DEBUG_TXT
     Serial.print("Init target toward : ");
     Serial.println(end_pos);
+#endif
     this->curve = new BezierCurve(robot->getPosition(), end_pos, multiplier);
     this->distanceRamp = new Ramp(acc, max_speed, dec, this->curve->getLength(), 0.0f, 0.0f);
     this->distanceRamp->start(robot->getTotalDistance());

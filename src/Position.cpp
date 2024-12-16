@@ -40,12 +40,14 @@ double Position::getDistance() const {
 #ifdef REAL_BOARD
 size_t Position::printTo(Print &p) const {
     size_t length = 0;
+#ifdef DEBUG_TXT
     length += p.print("x: ");
     length += p.print(x);
     length += p.print(", y: ");
     length += p.print(y);
     length += p.print(", angle: ");
     length += p.print(a*180/M_PI);
+#endif
     return length;
 }
 #endif

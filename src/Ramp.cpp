@@ -18,7 +18,7 @@ Ramp::Ramp(PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DAT
 
     this->acc_time = (max_speed - this->sign_corrected.initial_speed)/acc;
     this->dec_time = (max_speed - this->sign_corrected.end_speed)/dec;
-    this->sign_corrected.acc_distance = this->sign_corrected.initial_speed * abs(this->acc) + SIGN(this->acc_time) * acc * pow(this->acc_time, 2)/2.0f;
+    this->sign_corrected.acc_distance = this->sign_corrected.initial_speed * abs(this->acc_time) + SIGN(this->acc_time) * acc * pow(this->acc_time, 2)/2.0f;
     this->sign_corrected.dec_distance = max_speed * abs(this->dec_time) - SIGN(this->dec_time) * dec * pow(this->dec_time, 2)/2.0;
 
     if(this->sign_corrected.acc_distance + this->sign_corrected.dec_distance <= abs(distance)){
@@ -96,7 +96,7 @@ const Ramp::Private Ramp::compute_at_time(PRECISION_DATA_TYPE time) const {
         current_speed = ste_speed;
         distance = sign_corrected.initial_speed * acc_time + acc * pow(acc_time, 2)/2.0f + (time - acc_time) * ste_speed;
     }else if(time < acc_time + ste_time + dec_time){
-        current_speed = ste_speed - dec/(time - acc_time - ste_time);
+        current_speed = ste_speed - dec*(time - acc_time - ste_time);
         distance = sign_corrected.initial_speed * acc_time + acc * pow(acc_time, 2)/2.0f + ste_time * ste_speed + ste_speed * (time - acc_time - ste_time) - dec*pow(time - acc_time - ste_time, 2)/2.0f;
     }else{
         current_speed = this->sign_corrected.end_speed;

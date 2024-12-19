@@ -5,7 +5,7 @@
 #include "targets/CurveTarget.h"
 #include "Robot.h"
 
-CurveTarget::CurveTarget(Robot *robot, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, Position end_pos) : Target(robot), acc(acc), max_speed(max_speed), dec(dec), end_pos(end_pos) {
+CurveTarget::CurveTarget(Robot *robot, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, Position end_pos, PRECISION_DATA_TYPE end_speed) : Target(robot), acc(acc), max_speed(max_speed), dec(dec), end_pos(end_pos), end_speed(end_speed){
 }
 
 bool CurveTarget::is_done(){
@@ -24,7 +24,8 @@ void CurveTarget::process(){
     robot->setRampSpeed(data.speed);
     robot->setTargetAngle(robot->getAbsoluteAngle((target_pos-robot->getPosition()).getVectorAngle()));
     if(t>=1.0f && distance < 10){
-        robot->setTargetDistance(robot->getTotalDistance());
+        if(end_speed == 0)
+            robot->setTargetDistance(robot->getTotalDistance());
         robot->setDoneDistance(true);
         done = true;
     }

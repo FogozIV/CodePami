@@ -30,7 +30,7 @@ void Robot::computePosition(int16_t delta_left_tick, int16_t delta_right_tick) {
         dx = r * (-sin(this->pos.getAngleRad()) + sin(this->pos.getAngleRad() + arc_angle));
         dy = r * (cos(this->pos.getAngleRad()) - cos(this->pos.getAngleRad() + arc_angle));
     }
-    this->pos += Position(dx, dy, arc_angle);
+    this->pos += Position(dx, dy, arc_angle*RAD_TO_DEG);
 }
 
 void Robot::control() {
@@ -153,7 +153,12 @@ PRECISION_DATA_TYPE Robot::getRampSpeed() const {
 }
 
 void Robot::setRampSpeed(PRECISION_DATA_TYPE rampSpeed) {
-    ramp_speed = rampSpeed;
+    PRECISION_DATA_TYPE angle = correctAngle(target_angle - total_angle);
+    PRECISION_DATA_TYPE mult = 1;
+    if((angle < -90 || angle > 90) && !done_distance)
+        mult = -1;
+    Serial.println(rampSpeed);
+    ramp_speed = mult*rampSpeed;
 }
 
 PRECISION_DATA_TYPE Robot::getTotalDistance() const {
@@ -204,5 +209,10 @@ void Motor::setPWM(int16_t pwm) {
 }
 
 PRECISION_DATA_TYPE correctAngle(PRECISION_DATA_TYPE angle) {
-    return fmod(fmod(angle + 180, 360) - 360, 360) + 180;
+    while(angle > 180)
+        angle-=360;
+    while(angle < -180)
+        angle += 360;
+    return angle;
+    //return fmod(fmod(angle + 180, 360) - 360, 360) + 180;
 }

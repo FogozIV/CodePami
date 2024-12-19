@@ -14,7 +14,7 @@ class AngleTarget : public Target{
     PRECISION_DATA_TYPE dec;
     bool done = false;
 public:
-    AngleTarget(Robot *robot, PRECISION_DATA_TYPE target, PRECISION_DATA_TYPE acc=90, PRECISION_DATA_TYPE dec=90, PRECISION_DATA_TYPE max_speed=90);
+    AngleTarget(Robot *robot, PRECISION_DATA_TYPE target, PRECISION_DATA_TYPE acc=90, PRECISION_DATA_TYPE dec=90, PRECISION_DATA_TYPE max_speed=90, bool optimized=true);
 
     ~AngleTarget() override;
 
@@ -26,5 +26,6 @@ public:
 
     void on_done() override;
 
+    bool optimized;
 };
 #endif //CODEPAMI_ANGLETARGET_H

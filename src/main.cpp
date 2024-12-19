@@ -1,12 +1,12 @@
 #include <Arduino.h>
-
-#define PRECISION_DATA_TYPE float
+#include "config.h"
 #include "Position.h"
 #include "Robot.h"
 #include <Romi32U4.h>
 
 
-#define TRACK_MM 142.0f
+//#define TRACK_MM 142.0f *3645/3600
+#define TRACK_MM 140.2469135802469f
 #define TICK_PER_MM 6.58f
 #define Pin_PWM_Left 10 //PWM
 #define Pin_Dir_Left 16
@@ -34,18 +34,26 @@ void setup() {
     Serial.begin(9600);
     delay(5000);
     Position init_pos(-1000,0,0);
-    Position pos(1000,1000,90*M_PI/180);
+    Position pos(1000,1000,80);
     //last_time = micros();
     robot = new Robot(left_motor,right_motor, TICK_PER_MM, TRACK_MM, 1.0f);
     robot->setPidDistance(new PID(3, 0.1, 0.02));
     robot->setPidAngle(new PID(2, 0.02, 0.01));
+    //robot->addTarget(new AngleTarget(robot, 360*40, 90,90,360,false));
+
     robot->addTarget(new PositionTarget(robot, init_pos, 300,400,300));
     robot->addTarget(new BezierTarget(robot, 300, 400, 300, pos, 3000));
+    robot->addTarget(new BezierTarget(robot, 300,400,300,{2000, 1000, -80}, 1000));
+    robot->addTarget(new BezierTarget(robot, 300,400,300,{3000, 1000, 80}, 1000));
+    robot->addTarget(new AngleTarget(robot, 0));
+
+
+    /*
     robot->addTarget(new RotateTowardPositionTarget(robot, {0,1000}));
     robot->addTarget(new PositionTarget(robot, {0,1000}, 300,400,300));
     robot->addTarget(new RotateTowardPositionTarget(robot, {0,0}));
     robot->addTarget(new PositionTarget(robot, {0,0}, 300, 400, 300));
-    robot->addTarget(new AngleTarget(robot, 0));
+     */
     previous_micros = micros();
     //robot->addTarget(new AngleTarget(robot, 360));
     //robot->addTarget(new AngleTarget(robot, -170));

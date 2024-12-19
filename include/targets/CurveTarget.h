@@ -18,8 +18,9 @@ protected:
     PRECISION_DATA_TYPE t = 0.0f;
     Position target_pos ={0,0};
     Position end_pos;
+    PRECISION_DATA_TYPE end_speed;
 public:
-    CurveTarget(Robot* robot, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, Position end_pos);
+    CurveTarget(Robot* robot, PRECISION_DATA_TYPE acc, PRECISION_DATA_TYPE max_speed, PRECISION_DATA_TYPE dec, Position end_pos, PRECISION_DATA_TYPE end_speed=0.0f);
 
     bool is_done() override;
 

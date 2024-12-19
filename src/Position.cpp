@@ -1,10 +1,9 @@
 #include "Position.h"
 
+PRECISION_DATA_TYPE correctAngle(PRECISION_DATA_TYPE);
+
 Position::Position(PRECISION_DATA_TYPE x, PRECISION_DATA_TYPE y, PRECISION_DATA_TYPE a) : x(x), y(y), a(a){
-    while(this->a > M_PI)
-        this->a -= 2*M_PI;
-    while(this->a < -M_PI)
-        this->a += 2*M_PI;
+    this->a = correctAngle(a)*DEG_TO_RAD;
 }
 
 PRECISION_DATA_TYPE Position::getX() const{
@@ -16,7 +15,7 @@ PRECISION_DATA_TYPE Position::getY() const{
 }
 
 PRECISION_DATA_TYPE Position::getAngle() const{
-    return a*180/M_PI;
+    return a * RAD_TO_DEG;
 }
 
 PRECISION_DATA_TYPE Position::getAngleRad() const {
